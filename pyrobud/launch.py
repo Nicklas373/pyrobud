@@ -65,11 +65,17 @@ def main(*, config_path: str = DEFAULT_CONFIG_PATH) -> None:
 
     # Use preliminary loop for config upgrading
     loop = asyncio.get_event_loop()
-    aiorun.run(_upgrade(config, config_path), stop_on_unhandled_errors=True, loop=loop)
+    try: # Python >= 3.10
+        aiorun.run(_upgrade(config, config_path), stop_on_unhandled_errors=True)
+    except TypeError: # Python < 3.10
+        aiorun.run(_upgrade(config, config_path), stop_on_unhandled_errors=True, loop=loop)
     loop.close()
 
     loop = setup_asyncio(config)
 
     # Start bot
     log.info("Initializing bot")
-    aiorun.run(Bot.create_and_run(config, loop=loop), loop=loop)
+    try: # Python >= 3.10
+        aiorun.run(Bot.create_and_run(config))
+    except TypeError: # Python < 3.10
+        aiorun.run(Bot.create_and_run(config, loop=loop), loop=loop)
