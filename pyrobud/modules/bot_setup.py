@@ -201,7 +201,7 @@ Commands issued:
 
                     # pylint: disable=unused-variable
                     done, pending = await asyncio.wait(
-                        (reply_task, send_task, asyncio.sleep(0.25))
+                        (reply_task, send_task, asyncio.create_task(asyncio.sleep(0.25)))
                     )
 
                     # Raise all exceptions

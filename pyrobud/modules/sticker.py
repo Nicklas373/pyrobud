@@ -73,7 +73,8 @@ class StickerModule(module.Module):
                     try:
                         done: Set[asyncio.Future]
                         resp_task = self.bot.loop.create_task(reply_and_ack())
-                        done, _ = await asyncio.wait((resp_task, asyncio.sleep(0.25)))
+                        done, _ = await asyncio.wait(
+                            (resp_task, asyncio.create_task(asyncio.sleep(0.25))))
                         # Raise exceptions encountered in coroutines
                         for fut in done:
                             fut.result()
