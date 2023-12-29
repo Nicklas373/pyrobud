@@ -15,14 +15,14 @@ class vpsinfo(module.Module):
     async def on_message(self, event: tg.events.NewMessage.Event) -> None:
         pass
 
-    @command.desc("Get VPS Alive Info")
-    @command.alias("vpsalive")
-    async def cmd_vpsalive(self, ctx: command.Context) -> None:
-        await ctx.respond("HANA-CI VPS is alive")
+    @command.desc("Docker Bot Container Ping")
+    @command.alias("dockeralive")
+    async def cmd_dockerping(self, ctx: command.Context) -> None:
+        await ctx.respond("Bot Container is alive")
 
-    @command.desc("Get VPS Info")
-    @command.alias("vinfo")
-    async def cmd_vpsinfo(self, ctx: command.Context) -> None:
+    @command.desc("Docker Bot Container Info")
+    @command.alias("dockerinfo")
+    async def cmd_dockerstats(self, ctx: command.Context) -> None:
         cpuName = "Docker Container Common CPU"
         cpuCoreCount = psutil.cpu_count(logical=True)
         cpuUsage = psutil.cpu_percent(interval=1)
@@ -55,9 +55,9 @@ Storage Total Usage         = {} GB | {} %
 Storage Total Free            = {} GB\n'''.format(cpuName,cpuCoreCount,cpuUsage,upTime,ramTotal,ramUsage,ramUsagePercent,ramFree,diskTotal,diskUsed,diskPercent,diskAvail)
         await ctx.respond(msg)
 
-    @command.desc("Send HANA CI VPS Log")
-    @command.alias("vpslog")
-    async def cmd_vpslog(self, ctx: command.Context) -> None:
+    @command.desc("Docker Container Application Logs")
+    @command.alias("dockerlog")
+    async def cmd_dockerlogs(self, ctx: command.Context) -> None:
         await ctx.respond("Sending logs...")
         try:
              print(subprocess.run(["/app/pyrobud/sendLaravelLog.sh", ""],capture_output=True))
