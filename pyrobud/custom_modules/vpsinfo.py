@@ -15,13 +15,13 @@ class vpsinfo(module.Module):
     async def on_message(self, event: tg.events.NewMessage.Event) -> None:
         pass
 
-    @command.desc("Docker Bot Container Ping")
-    @command.alias("dockeralive")
+    @command.desc("Check Pyrobud Ping")
+    @command.alias("vps_alive")
     async def cmd_dockerping(self, ctx: command.Context) -> None:
-        await ctx.respond("Bot Container is alive")
+        await ctx.respond("Pyrobud Container is alive")
 
-    @command.desc("Docker Bot Container Info")
-    @command.alias("dockerinfo")
+    @command.desc("Check OS Host System Info")
+    @command.alias("vps_info")
     async def cmd_dockerstats(self, ctx: command.Context) -> None:
         cpuName = "Docker Container Common CPU"
         cpuCoreCount = psutil.cpu_count(logical=True)
@@ -36,7 +36,7 @@ class vpsinfo(module.Module):
         ramUsagePercent = psutil.virtual_memory().percent
         upTime = subprocess.check_output(['uptime','-p']).decode('UTF-8')
         msg = '''
-            HANA-CI VPS Info
+            HANA-CI Host VPS Info
 --------------------------------
 
 CPU Info
@@ -44,6 +44,7 @@ CPU Name                          = {}
 CPU Core Count               = {} Cores
 CPU Usage                          = {} %
 CPU Uptime                       = {}
+
 RAM Info
 RAM Total Capacity         = {} MB
 RAM Total Usage              = {} MB | {} %
@@ -55,12 +56,12 @@ Storage Total Usage         = {} GB | {} %
 Storage Total Free            = {} GB\n'''.format(cpuName,cpuCoreCount,cpuUsage,upTime,ramTotal,ramUsage,ramUsagePercent,ramFree,diskTotal,diskUsed,diskPercent,diskAvail)
         await ctx.respond(msg)
 
-    @command.desc("Docker Container Application Logs")
-    @command.alias("dockerlog")
+    @command.desc("Send Application Logs")
+    @command.alias("vps_logs")
     async def cmd_dockerlogs(self, ctx: command.Context) -> None:
         await ctx.respond("Sending logs...")
         try:
-             print(subprocess.run(["/app/pyrobud/sendLaravelLog.sh", ""],capture_output=True))
+             await ctx.respond(subprocess.run(["/app/pyrobud/sendLaravelLog.sh", ""],capture_output=True))
         except subprocess.CalledProcessError as e:
              if e.output.startswith('error: {'):
                 error = json.loads(e.output[7:])

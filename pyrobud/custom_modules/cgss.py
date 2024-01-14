@@ -1,5 +1,5 @@
-# Copyright 2023, Dicky Herlambang "Nicklas373" <herlambangdicky5@gmail.com>
-# Copyright 2016-2023, HANA-CI Build Project
+# Copyright 2024, Dicky Herlambang "Nicklas373" <herlambangdicky5@gmail.com>
+# Copyright 2016-2024, HANA-CI Build Project
 # SPDX-License-Identifier: GPL-3.0-or-later
 # This module based on https://github.com/Nicklas373/CGSS_ACB_Downloader that only
 # have minimal function to track DB manifest version and report to user.
@@ -10,7 +10,7 @@ import json
 from .. import command, module, util
 
 class CgssModule(module.Module):
-    name = "CGSS"
+    name = "cgss"
     # disabled = True
 
     db: util.db.AsyncDB
