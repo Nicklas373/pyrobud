@@ -61,7 +61,8 @@ Storage Total Free            = {} GB\n'''.format(cpuName,cpuCoreCount,cpuUsage,
     async def cmd_dockerlogs(self, ctx: command.Context) -> None:
         await ctx.respond("Sending logs...")
         try:
-             await ctx.respond(subprocess.run(["/app/pyrobud/sendLaravelLog.sh", ""],capture_output=True))
+             subprocess.run(["/app/pyrobud/sendLaravelLog.sh", ""],capture_output=True)
+             await ctx.respond("Logs has been sent!")
         except subprocess.CalledProcessError as e:
              if e.output.startswith('error: {'):
                 error = json.loads(e.output[7:])
